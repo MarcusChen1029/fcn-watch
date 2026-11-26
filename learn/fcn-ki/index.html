@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FCN 觸及 KI 怎麼辦？觸發後到期的三種結果（附試算）｜FCN 監控</title>
+<meta name="description" content="FCN 觸發 KI（下限價）不等於虧損。用一檔 NVDA/AMD 的範例算給你看：觸發 KI 之後，到期拿回本金、提前出場、接股三種結果各自怎麼發生，以及現在該看哪幾個數字。">
+<link rel="canonical" href="https://marcuschen1029.github.io/fcn-watch/learn/fcn-ki/">
+<meta property="og:title" content="FCN 觸及 KI 怎麼辦？觸發後到期的三種結果（附試算）">
+<meta property="og:description" content="FCN 觸發 KI（下限價）不等於虧損。用一檔 NVDA/AMD 的範例算給你看：觸發 KI 之後，到期拿回本金、提前出場、接股三種結果各自怎麼發生，以及現在該看哪幾個數字。">
+<meta property="og:type" content="article">
+<link rel="stylesheet" href="../../styles.css">
+<script type="application/ld+json">[{"@context": "https://schema.org", "@type": "Article", "headline": "FCN 觸及 KI 怎麼辦？觸發後到期的三種結果（附試算）", "description": "FCN 觸發 KI（下限價）不等於虧損。用一檔 NVDA/AMD 的範例算給你看：觸發 KI 之後，到期拿回本金、提前出場、接股三種結果各自怎麼發生，以及現在該看哪幾個數字。", "inLanguage": "zh-TW", "dateModified": "2026-11-26", "mainEntityOfPage": "https://marcuschen1029.github.io/fcn-watch/learn/fcn-ki/"}, {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "FCN 觸發 KI 就一定會虧錢嗎？", "acceptedAnswer": {"@type": "Answer", "text": "不一定。觸發 KI 只代表到期時有可能接股；如果到期前先 KO，或到期時最差標的仍高於履約價，都能拿回全部本金。"}}, {"@type": "Question", "name": "觸發 KI 之後還會繼續配息嗎？", "acceptedAnswer": {"@type": "Answer", "text": "FCN 是固定配息，多數商品在觸發 KI 後仍照常配息到出場或到期為止，請以你的 termsheet 為準。"}}, {"@type": "Question", "name": "美式 KI 和歐式 KI 差在哪？", "acceptedAnswer": {"@type": "Answer", "text": "美式 KI 存續期間每天都看，任何一天跌破就算觸發；歐式 KI 只看到期那一天。"}}]}]</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="../../">FCN 監控</a>
+  <a class="navlink" href="../../learn/">FCN 教學</a>
+  <span class="tag">免費追蹤你持有的 FCN 離 KO、KI 多遠</span>
+</div></header>
+<main class="wrap">
+<article class="panel prose article">
+<p class="crumb"><a href="../../">FCN 監控</a> › <a href="../">FCN 教學</a></p>
+<h1>FCN 觸及 KI 怎麼辦？觸發後到期的三種結果</h1>
+
+<p>收到「您的 FCN 已觸及 KI」的通知，很多人第一個反應是：本金是不是沒了？其實<b>觸發 KI 本身不會讓你馬上虧錢</b>。KI 是一個「開關」：它打開之後，到期時才有可能用履約價接股。真正決定結果的，是<b>到期那天表現最差的標的有沒有低於履約價</b>，以及在那之前會不會先提前出場（KO）。</p>
+
+<h2>先用一檔範例把價格算清楚</h2>
+<p>假設你買了一檔 12 個月的 FCN：</p>
+<ul>
+<li>連結標的：NVDA、AMD；名目本金 USD 100,000；年化配息 12%，每月配息</li>
+<li>期初價：NVDA 200、AMD 150</li>
+<li>履約價 80%、KI 60%（美式，每天看）、KO 100%</li>
+</ul>
+<table class="calc">
+<tr><th>標的</th><th>期初價</th><th>KO 價 (100%)</th><th>履約價 (80%)</th><th>KI 價 (60%)</th></tr>
+<tr><td>NVDA</td><td>200</td><td>200</td><td>160</td><td>120</td></tr>
+<tr><td>AMD</td><td>150</td><td>150</td><td>120</td><td>90</td></tr>
+</table>
+<p>第 3 個月 NVDA 有一天收在 118，低於 KI 價 120，所以 KI 被觸發了。接下來有三種可能。</p>
+
+<h2>結果一：到期時最差標的回到履約價之上 → 拿回 100% 本金</h2>
+<p>如果到期日 NVDA 收 170（高於履約價 160），AMD 也在履約價之上，那麼即使中途觸發過 KI，你仍然拿回 USD 100,000 本金，加上 12 個月共 USD 12,000 的配息。</p>
+
+<h2>結果二：還沒到期就提前出場（KO）→ 拿回本金</h2>
+<p>只要在可提前出場的觀察日，NVDA 和 AMD 都站回 KO 價以上（NVDA ≥ 200、AMD ≥ 150），商品就提前結束、返還本金。<b>KO 一旦發生，之前觸發過的 KI 就不再有影響。</b></p>
+
+<h2>結果三：到期時最差標的低於履約價 → 用履約價接股</h2>
+<p>假設到期日 NVDA 收 140，比履約價 160 低。你會以 160 的價格接 NVDA：</p>
+<ul>
+<li>接股股數 = 100,000 ÷ 160 = <b>625 股</b></li>
+<li>這 625 股以到期價計算市值 = 625 × 140 = <b>USD 87,500</b></li>
+<li>帳面損失 = 100,000 − 87,500 = USD 12,500；扣掉已領的 12,000 配息，整體約 <b>−USD 500</b></li>
+</ul>
+<p>接股之後股票在你手上，之後漲跌都是你的。</p>
+
+<h2>觸發 KI 之後，該看哪幾個數字？</h2>
+<ol>
+<li><b>最差標的離履約價還差多少</b>：這決定了「如果今天到期」會不會接股。</li>
+<li><b>還剩幾個觀察日</b>：剩越多次，越有機會在到期前 KO 出場。</li>
+<li><b>KO 是不是記憶型</b>：記憶型只要每檔各自站上過 KO 價一次就會被記住，出場門檻比一般 KO 低很多（見<a href="../fcn-memory-ko/">記憶型 KO 是什麼</a>）。</li>
+<li><b>交割方式</b>：實物交割（給股票）還是現金交割、零股怎麼處理，各發行機構規定不同，請看你的 termsheet。</li>
+</ol>
+<p>這些數字每天都在變。與其每天自己算，可以把條件輸入 <a href="../../">FCN 監控</a>，它會用最新收盤價算出每檔標的離 KI、KO 的距離，以及「如果維持現價到期」會接幾股。</p>
+
+<h2>常見問題</h2>
+<details><summary>FCN 觸發 KI 就一定會虧錢嗎？</summary><p>不一定。觸發 KI 只代表到期時有可能接股；如果到期前先 KO，或到期時最差標的仍高於履約價，都能拿回全部本金。</p></details><details><summary>觸發 KI 之後還會繼續配息嗎？</summary><p>FCN 是固定配息，多數商品在觸發 KI 後仍照常配息到出場或到期為止，請以你的 termsheet 為準。</p></details><details><summary>美式 KI 和歐式 KI 差在哪？</summary><p>美式 KI 存續期間每天都看，任何一天跌破就算觸發；歐式 KI 只看到期那一天。</p></details>
+</article>
+<aside class="panel cta"><h2>你手上的 FCN 現在離 KI 多遠？</h2>
+<p>輸入條件一次，之後每次打開都用最新收盤價計算每檔標的距離 KO、KI 的幅度、已領配息和接股試算。免費、不用註冊，資料只存在你的瀏覽器。</p>
+<p><a class="button primary" href="../../">打開 FCN 監控</a></p></aside>
+<nav class="panel"><h2>其他 FCN 教學</h2><ul><li><a href="../fcn-jie-gu/">FCN 接股怎麼算？股數、帳面損益與損益兩平價</a></li><li><a href="../fcn-memory-ko/">記憶型 KO 是什麼？跟一般 KO 差在哪</a></li><li><a href="../fcn-american-european-ki/">美式 KI vs 歐式 KI、每日 KO vs 期末 KO</a></li><li><a href="../fcn-coupon/">FCN 配息怎麼算？年化配息率換算每月配息</a></li></ul></nav>
+</main>
+<footer class="wrap foot"><p>本站內容為一般性說明與數學試算，不構成任何投資建議或要約；實際條款、KO/KI 判定、配息與交割以發行機構文件為準。</p></footer>
+</body>
+</html>

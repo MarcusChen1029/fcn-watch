@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FCN 接股怎麼算？股數、帳面損益與損益兩平價試算｜FCN 監控</title>
+<meta name="description" content="FCN 到期接股時會拿到幾股？帳面虧多少？配息算進去之後，股價要回到多少才打平？用一檔 TSLA 的例子一步一步算，附公式。">
+<link rel="canonical" href="https://marcuschen1029.github.io/fcn-watch/learn/fcn-jie-gu/">
+<meta property="og:title" content="FCN 接股怎麼算？股數、帳面損益與損益兩平價試算">
+<meta property="og:description" content="FCN 到期接股時會拿到幾股？帳面虧多少？配息算進去之後，股價要回到多少才打平？用一檔 TSLA 的例子一步一步算，附公式。">
+<meta property="og:type" content="article">
+<link rel="stylesheet" href="../../styles.css">
+<script type="application/ld+json">[{"@context": "https://schema.org", "@type": "Article", "headline": "FCN 接股怎麼算？股數、帳面損益與損益兩平價試算", "description": "FCN 到期接股時會拿到幾股？帳面虧多少？配息算進去之後，股價要回到多少才打平？用一檔 TSLA 的例子一步一步算，附公式。", "inLanguage": "zh-TW", "dateModified": "2026-11-26", "mainEntityOfPage": "https://marcuschen1029.github.io/fcn-watch/learn/fcn-jie-gu/"}, {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "FCN 接股的成本價是多少？", "acceptedAnswer": {"@type": "Answer", "text": "接股的買進價就是履約價（期初價 × 履約價%）。把已領配息算進去，實際的損益兩平價是（名目本金 − 已領配息）÷ 接股股數。"}}, {"@type": "Question", "name": "多檔標的時會接哪一檔？", "acceptedAnswer": {"@type": "Answer", "text": "接表現最差的那一檔，也就是到期價除以履約價比例最低的標的。"}}, {"@type": "Question", "name": "接股可以改拿現金嗎？", "acceptedAnswer": {"@type": "Answer", "text": "要看商品是實物交割還是現金交割，以及發行機構的規定，請以 termsheet 為準。"}}]}]</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="../../">FCN 監控</a>
+  <a class="navlink" href="../../learn/">FCN 教學</a>
+  <span class="tag">免費追蹤你持有的 FCN 離 KO、KI 多遠</span>
+</div></header>
+<main class="wrap">
+<article class="panel prose article">
+<p class="crumb"><a href="../../">FCN 監控</a> › <a href="../">FCN 教學</a></p>
+<h1>FCN 接股怎麼算？股數、帳面損益與損益兩平價</h1>
+
+<p>FCN 到期時，如果曾經觸發 KI，而且表現最差的標的收在履約價之下，你不會拿回現金本金，而是<b>用履約價買進那檔最差的股票</b>。這篇把接股相關的數字一次算清楚。</p>
+
+<h2>三個公式</h2>
+<ul>
+<li><b>接股股數</b> = 名目本金 ÷ 最差標的的履約價</li>
+<li><b>到期市值</b> = 接股股數 × 到期收盤價</li>
+<li><b>損益兩平價</b> = （名目本金 − 已領配息）÷ 接股股數</li>
+</ul>
+<p>損益兩平價的意思是：把領到的配息也算進來，股價要回到多少，這筆投資才不賠。</p>
+
+<h2>範例：TSLA 6 個月 FCN</h2>
+<ul>
+<li>名目本金 USD 50,000；年化配息 15%，每月配息；天期 6 個月</li>
+<li>TSLA 期初價 375，履約價 80% → <b>履約價 300</b></li>
+<li>期間觸發過 KI，到期日 TSLA 收 250（低於 300）</li>
+</ul>
+<table class="calc">
+<tr><th>項目</th><th>計算</th><th>結果</th></tr>
+<tr><td>接股股數</td><td>50,000 ÷ 300</td><td>166.67 股</td></tr>
+<tr><td>到期市值</td><td>166.67 × 250</td><td>USD 41,666.67</td></tr>
+<tr><td>帳面損失（未含配息）</td><td>50,000 − 41,666.67</td><td>USD 8,333.33</td></tr>
+<tr><td>6 個月配息</td><td>50,000 × 15% × 6/12</td><td>USD 3,750</td></tr>
+<tr><td>含配息損益</td><td>3,750 − 8,333.33</td><td>−USD 4,583.33</td></tr>
+<tr><td>損益兩平價</td><td>(50,000 − 3,750) ÷ 166.67</td><td>USD 277.50</td></tr>
+</table>
+<p>也就是說，接股之後只要 TSLA 回到 277.5 以上，把配息算進去就不虧了（未計交易成本與稅）。</p>
+
+<h2>零股怎麼處理？</h2>
+<p>166.67 股不是整數。常見做法是交付 166 股，剩下的 0.67 股依到期價折算現金給你，但各發行機構規定不同，請以 termsheet 的交割條款為準。</p>
+
+<h2>為什麼是「最差」那一檔？</h2>
+<p>多檔標的的 FCN 是「看最差」（worst-of）結構：到期時用每檔「到期價 ÷ 履約價」比較，比例最低的那一檔就是交割標的。所以三檔裡就算有兩檔大漲，只要一檔跌深，你接到的就是跌深的那一檔。</p>
+<p>想隨時知道「如果今天到期會接哪一檔、接幾股、市值多少」，可以把條件輸入 <a href="../../">FCN 監控</a>，觸發 KI 的商品會直接顯示這些數字。</p>
+
+<h2>常見問題</h2>
+<details><summary>FCN 接股的成本價是多少？</summary><p>接股的買進價就是履約價（期初價 × 履約價%）。把已領配息算進去，實際的損益兩平價是（名目本金 − 已領配息）÷ 接股股數。</p></details><details><summary>多檔標的時會接哪一檔？</summary><p>接表現最差的那一檔，也就是到期價除以履約價比例最低的標的。</p></details><details><summary>接股可以改拿現金嗎？</summary><p>要看商品是實物交割還是現金交割，以及發行機構的規定，請以 termsheet 為準。</p></details>
+</article>
+<aside class="panel cta"><h2>你手上的 FCN 現在離 KI 多遠？</h2>
+<p>輸入條件一次，之後每次打開都用最新收盤價計算每檔標的距離 KO、KI 的幅度、已領配息和接股試算。免費、不用註冊，資料只存在你的瀏覽器。</p>
+<p><a class="button primary" href="../../">打開 FCN 監控</a></p></aside>
+<nav class="panel"><h2>其他 FCN 教學</h2><ul><li><a href="../fcn-ki/">FCN 觸及 KI 怎麼辦？觸發後到期的三種結果</a></li><li><a href="../fcn-memory-ko/">記憶型 KO 是什麼？跟一般 KO 差在哪</a></li><li><a href="../fcn-american-european-ki/">美式 KI vs 歐式 KI、每日 KO vs 期末 KO</a></li><li><a href="../fcn-coupon/">FCN 配息怎麼算？年化配息率換算每月配息</a></li></ul></nav>
+</main>
+<footer class="wrap foot"><p>本站內容為一般性說明與數學試算，不構成任何投資建議或要約；實際條款、KO/KI 判定、配息與交割以發行機構文件為準。</p></footer>
+</body>
+</html>
