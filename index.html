@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FCN 監控｜追蹤你持有的結構型商品離 KO、KI 還有多遠</title>
+<meta name="description" content="免費的 FCN 持有監控工具：輸入你手上 FCN 的條件，每天自動用最新收盤價計算各標的距離提前出場（KO）與下限觸發（KI）的幅度、已領配息、下次觀察日與到期可能的接股數量。資料只存在你的瀏覽器。">
+<link rel="stylesheet" href="styles.css">
+<script type="module" src="app.js"></script>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="./">FCN 監控</a>
+    <span class="tag">免費 · 不用註冊 · 資料只存在你的瀏覽器</span>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <h1>你手上的 FCN，離 KO、KI 還有多遠？</h1>
+    <p>輸入條件一次，之後每次打開都用最新收盤價重新計算：每檔標的離提前出場和下限觸發還差幾 %、已經領了多少配息、下次觀察是哪天，以及萬一到期接股會拿到幾股。</p>
+  </section>
+
+  <section id="notes" aria-live="polite"></section>
+
+  <section class="panel" id="form-panel">
+    <h2 id="form-title">新增一檔 FCN</h2>
+    <form id="note-form" autocomplete="off">
+      <div class="grid">
+        <label class="wide">產品名稱（自己看得懂就好）
+          <input name="name" required placeholder="例：國泰 NVDA/AMD 6M">
+        </label>
+        <label class="wide">連結標的（1 到 4 檔，用逗號分開）
+          <input name="underlyings" required list="universe" placeholder="例：NVDA, AMD, AVGO">
+          <small>支援美股、台股（2330.TW）、港股、日股、主要指數與 ETF。<a href="#universe-list">看支援清單</a></small>
+        </label>
+        <label>交易日（期初定價日）<input name="tradeDate" type="date" required></label>
+        <label>幣別
+          <select name="currency"><option>USD</option><option>TWD</option><option>HKD</option><option>JPY</option><option>EUR</option></select>
+        </label>
+        <label>名目本金<input name="notional" type="number" min="1" step="any" required placeholder="100000"></label>
+        <label>年化配息率 %<input name="couponPa" type="number" step="any" min="0" required placeholder="15"></label>
+        <label>天期（月）<input name="tenorMonths" type="number" min="1" required value="6"></label>
+        <label>觀察頻率（月）<input name="obsPeriodMonths" type="number" min="1" required value="1"></label>
+        <label>履約價 %<input name="strikePct" type="number" step="any" required value="85"></label>
+        <label>KO %<input name="koPct" type="number" step="any" required value="100"></label>
+        <label>KO 類型
+          <select name="koType">
+            <option value="period_end">期末觀察</option><option value="period_end_memory">期末記憶</option>
+            <option value="daily">每日觀察</option><option value="daily_memory">每日記憶</option>
+          </select>
+        </label>
+        <label>不可提前出場期數<input name="nonCallPeriods" type="number" min="0" value="1"></label>
+        <label>KI %<input name="kiPct" type="number" step="any" value="65"></label>
+        <label>KI 類型
+          <select name="kiType"><option value="american">美式（每日觀察）</option><option value="european">歐式（到期觀察）</option><option value="none">無 KI</option></select>
+        </label>
+        <label class="wide">期初價（選填，照 termsheet 填，用逗號分開；不填就用交易日收盤價）
+          <input name="initialSpots" placeholder="例：182.5, 198.6, 318.8">
+        </label>
+      </div>
+      <p class="err" id="form-err" role="alert"></p>
+      <div class="actions">
+        <button type="submit" class="primary" id="submit-btn">加入監控</button>
+        <button type="button" id="cancel-edit" hidden>取消編輯</button>
+        <button type="button" id="load-example" class="ghost">放一檔範例看看</button>
+      </div>
+    </form>
+    <datalist id="universe"></datalist>
+  </section>
+
+  <section class="panel" id="alerts">
+    <h2>想要每天收到提醒？</h2>
+    <p>正在做「快觸及 KI 或 KO 時，自動傳 Email / LINE 通知」的功能。留下 Email，上線時第一個通知你（不會寄廣告）。</p>
+    <form id="waitlist" class="row">
+      <input type="email" name="email" required placeholder="you@example.com" aria-label="Email">
+      <button class="primary">通知我</button>
+    </form>
+    <p class="hint" id="waitlist-msg"></p>
+  </section>
+
+  <article class="panel prose" id="learn">
+    <h2>FCN 的 KO、KI、履約價怎麼看？</h2>
+    <p><b>FCN（Fixed Coupon Note，固定配息票據）</b>是不保本的境外結構型商品：只要沒有提前出場，每期固定配息；到期時拿回本金還是接股，要看連結標的中<b>表現最差</b>的那一檔。</p>
+    <h3>KO（Knock-Out，提前出場）</h3>
+    <p>在可提前出場的觀察日，所有標的的收盤價都高於 KO 價（期初價 × KO%），商品就提前結束，返還本金並付當期配息。「記憶型」KO 則是每檔標的只要在任一觀察日站上過 KO 價就被記住，全部都被記住時出場。</p>
+    <h3>KI（Knock-In，下限觸發）</h3>
+    <p>美式 KI 只要存續期間任一天、任一檔標的收盤價跌到 KI 價以下就算觸發；歐式 KI 只看到期那天。觸發 KI 本身不會馬上造成損失，關鍵在<b>到期時</b>最差標的是否低於履約價。</p>
+    <h3>到期會怎樣？</h3>
+    <ul>
+      <li>沒觸發 KI：拿回 100% 本金。</li>
+      <li>觸發過 KI，但到期時最差標的仍高於履約價：拿回 100% 本金。</li>
+      <li>觸發過 KI，且到期時最差標的低於履約價：以履約價接股，股數 = 本金 ÷ 履約價，帳面損失 = 股數 × (履約價 − 到期價)。</li>
+    </ul>
+    <h3>常見問題</h3>
+    <details><summary>我的資料會被上傳嗎？</summary><p>不會。你輸入的條件只存在這台裝置的瀏覽器（localStorage），網站只下載公開的收盤價。</p></details>
+    <details><summary>價格多久更新一次？</summary><p>每個交易日收盤後更新一次，來源為 Yahoo Finance 的日收盤價，可能有延遲或錯誤，正式結果請以發行機構通知為準。</p></details>
+    <details><summary>股票分割（拆股）怎麼處理？</summary><p>價格資料已依分割調整。如果你手動填了 termsheet 上的期初價，交易日之後若有分割，本工具會自動把期初價等比例換算。</p></details>
+    <details><summary>每日 KO 在兩個觀察日之間出場，配息怎麼算？</summary><p>各發行機構規定不同，本工具在這種情況不計當期配息，請以你的 termsheet 為準。</p></details>
+  </article>
+
+  <section class="panel" id="universe-list">
+    <h2>支援的標的</h2>
+    <p class="hint" id="universe-text"></p>
+    <p class="hint">需要的標的不在清單上？在提醒表單留言，我們會加上去。</p>
+  </section>
+</main>
+
+<footer class="wrap foot">
+  <p>本工具僅依公開收盤價進行數學計算，不構成任何投資建議或要約；實際 KO/KI 判定、配息與交割以發行機構通知為準。<span id="data-updated"></span></p>
+</footer>
+</body>
+</html>
