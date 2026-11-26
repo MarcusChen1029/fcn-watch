@@ -1,7 +1,18 @@
 import { evaluate, validate } from "./engine.js";
 
 const STORE = "fcn-watch:v1";
-const WAITLIST_URL = ""; // set when the alert backend exists
+// Supabase project (publishable key: safe in the browser; anon can only call the two RPCs).
+const SB_URL = "";
+const SB_KEY = "";
+function rpc(fn, body) {
+  if (!SB_URL) return Promise.resolve(null);
+  return fetch(`${SB_URL}/rest/v1/rpc/${fn}`, {
+    method: "POST", keepalive: true,
+    headers: { "Content-Type": "application/json", apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` },
+    body: JSON.stringify(body),
+  }).then((r) => (r.ok ? r.json().catch(() => true) : Promise.reject(new Error(r.status))));
+}
+const hit = (path) => { rpc("hit", { p_path: path }).catch(() => {}); };
 const STATUS = { alive: "存續中", knocked_out: "已提前出場 (KO)", matured: "已到期" };
 const KO_LABEL = { period_end: "期末", period_end_memory: "期末記憶", daily: "每日", daily_memory: "每日記憶" };
 const KI_LABEL = { american: "美式", european: "歐式", none: "無" };
@@ -189,6 +200,7 @@ async function init() {
       notes.push({ ...note, id: crypto.randomUUID() });
     }
     save(notes);
+    if (!editingId) hit("/add");
     resetForm();
     render();
     $("#notes").scrollIntoView({ behavior: "smooth" });
@@ -199,6 +211,7 @@ async function init() {
       notional: 100000, couponPa: 0.16, tenorMonths: 12, obsPeriodMonths: 1, strikePct: 0.8, koPct: 1.02,
       koType: "daily_memory", nonCallPeriods: 2, kiPct: 0.6, kiType: "american",
       tradeDate: new Date(Date.now() - 120 * 86400000).toISOString().slice(0, 10), initialSpots: null });
+    hit("/example");
     $("#form-err").textContent = "範例已填好，按「加入監控」看看結果。";
   });
   $("#notes").addEventListener("click", (e) => {
@@ -222,14 +235,15 @@ async function init() {
   $("#waitlist").addEventListener("submit", async (e) => {
     e.preventDefault();
     const msg = $("#waitlist-msg");
-    if (!WAITLIST_URL) { msg.textContent = "提醒名單尚未開放，請稍後再試。"; return; }
+    if (!SB_URL) { msg.textContent = "提醒名單尚未開放，請稍後再試。"; return; }
     try {
-      const r = await fetch(WAITLIST_URL, { method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: e.target.email.value, notes: load().length }) });
-      msg.textContent = r.ok ? "收到了，上線時會通知你。" : "送出失敗，請稍後再試。";
-      if (r.ok) e.target.reset();
+      const res = await rpc("join_waitlist", { p_email: e.target.email.value, p_notes: load().length });
+      msg.textContent = { ok: "收到了，上線時會通知你。", exists: "這個 Email 已經在名單上了。",
+        invalid: "Email 格式不太對，請再確認。", full: "名單暫時額滿，請稍後再試。" }[res] || "送出失敗，請稍後再試。";
+      if (res === "ok" || res === "exists") e.target.reset();
     } catch { msg.textContent = "送出失敗，請稍後再試。"; }
   });
+  hit("/");
   render();
 }
 
